@@ -10,14 +10,7 @@
 #define longDelayLoad -128 // Scaled by 1024. Must be run 13 times to achieve the desired .2 second delay
 #define shortDelayLoad -79 // Scaled by 64
 
-void shortDelay()  {//does the same things as shortDelayA
-	TCNT0 = longDelayLoad;
-	TCCR0A = 0b00000000;
-	TCCR0B = 0b00000011;
-	while(!(TIFR0 & (1<<TOV0)));
-	TCCR0B = 0x00;
-	TIFR0 = 1<<TOV0;
-}
+
 void shortDelayA()  {
 	TCNT0 = longDelayLoad;
 	TCCR0A = 0b00000000;
@@ -50,7 +43,7 @@ void soundA() {// i used this to fill out the playSoundB and playSoundC function
 	for (unsigned char i = 0; i < 4; i++){
 		for (unsigned char i = 0; i < 255; i++) { //Toggle PORTE5 100 times(4*255 times)
 			PORTE = PORTE ^ 0b00010000;
-			shortDelay();
+			shortDelayA();
 		}
 	}
 }
@@ -69,16 +62,6 @@ void soundC() {
 			PORTE = PORTE ^ 0b00010000;
 			shortDelayC();
 		}
-	}
-}
-void delay() {
-	for (unsigned char i = 0; i<28; i++) {
-		TCNT0 = longDelayLoad;
-		TCCR0A = 0b00000000;
-		TCCR0B = 0b00000101;
-		while(!(TIFR0 & (1<<TOV0)));
-		TCCR0B = 0x00;
-		TIFR0 = 1<<TOV0;
 	}
 }
 
